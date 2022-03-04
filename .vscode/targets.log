@@ -8,7 +8,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This program built for i386-apple-darwin11.3.0
  
 
-# Make data base, printed on Fri Mar  4 18:13:42 2022
+# Make data base, printed on Fri Mar  4 19:32:26 2022
 
 # Variables
 
@@ -19,6 +19,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # environment
 ELECTRON_NO_ATTACH_CONSOLE = 1
 # environment
+ 
 VSCODE_LOG_NATIVE = false
 # automatic
 ?D = $(patsubst %/,%,$(dir $?))
@@ -43,11 +44,11 @@ VSCODE_VERBOSE_LOGGING = true
 # environment
 P9K_SSH = 0
 # environment
-VSCODE_IPC_HOOK_EXTHOST = /var/folders/zz/zyxvpxvq6csfxvn_n000cczh00337w/T/vscode-ipc-61dbdc69-5bf3-464f-8854-3eb1fad01646.sock
+VSCODE_IPC_HOOK_EXTHOST = /var/folders/zz/zyxvpxvq6csfxvn_n000cczh00337w/T/vscode-ipc-39c3bd2e-6022-4f8e-8e57-236263525d26.sock
 # environment
 VSCODE_CWD = /Users/ajaidi/Documents/Philosophers
 # environment
-Apple_PubSub_Socket_Render = /private/tmp/com.apple.launchd.9ipXzyzXCV/Render
+Apple_PubSub_Socket_Render = /private/tmp/com.apple.launchd.0wz5vfGx6j/Render
 # environment
 PATH = /Users/ajaidi/goinfre/.brew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki:/Users/ajaidi/Downloads/nvim-osx64/binzexport:/Users/ajaidi/.fig/bin
 # environment
@@ -55,7 +56,7 @@ LSCOLORS = Gxfxcxdxbxegedabagacad
 # environment
 FIG_CHECKED_PROMPTS = 1
 # makefile (from `Makefile', line 4)
-M_SRCS = philo.c parsing/check_in.c allocation/allocation.c
+M_SRCS = philo.c parsing/check_in.c allocation/allocation.c threads/threads.c
 # environment
 VSCODE_LOG_STACK = false
 # environment
@@ -63,16 +64,16 @@ ELECTRON_RUN_AS_NODE = 1
 # default
 .FEATURES := target-specific order-only second-expansion else-if archives jobserver check-symlink
 # environment
-SSH_AUTH_SOCK = /private/tmp/com.apple.launchd.nyzXUuoYkZ/Listeners
+SSH_AUTH_SOCK = /private/tmp/com.apple.launchd.Wkhl2hWn7V/Listeners
 # automatic
 %F = $(notdir $%)
 # environment
-TTY = /dev/ttys002
+TTY = /dev/ttys001
 # environment
 FIG_ENV_VAR = 1
 # environment
 VSCODE_PIPE_LOGGING = true
-# makefile (from `Makefile', line 7)
+# makefile (from `Makefile', line 8)
 M_OBJS = $(M_SRCS:.c=.o)
 # environment
 PWD = /Users/ajaidi/Documents/Philosophers
@@ -121,7 +122,7 @@ FIG_TERM_VERSION = 3
 # default
 MAKECMDGOALS := all
 # environment
-TERM_SESSION_ID = w0t0p0:B462649F-2357-41D0-A660-73B8D59F7344
+TERM_SESSION_ID = w0t0p0:88EEE234-F7C4-427D-AF6C-961AE21FC3F3
 # makefile (from `Makefile', line 1)
 NAME = philo
 # environment
@@ -159,7 +160,7 @@ LC_TERMINAL_VERSION = 3.4.13
 # automatic
 +F = $(notdir $+)
 # environment
-ITERM_SESSION_ID = w0t0p0:B462649F-2357-41D0-A660-73B8D59F7344
+ITERM_SESSION_ID = w0t0p0:88EEE234-F7C4-427D-AF6C-961AE21FC3F3
 # environment
 COLORFGBG = 7;0
 # environment
@@ -195,11 +196,12 @@ MAKELEVEL := 0
 # environment
 LANG = C
 # environment
+ 
 TERM = xterm-256color
 # environment
-_P9K_TTY = /dev/ttys002
+_P9K_TTY = /dev/ttys001
 # environment
-VSCODE_PID = 1752
+VSCODE_PID = 2700
 # variable set hash-table stats:
 # Load=94/1024=9%, Rehash=0, Collisions=11/126=9%
 
@@ -210,15 +212,13 @@ VSCODE_PID = 1752
 # Directories
 
 # . (device 16777227, inode 2614059): 11 files, no impossibilities.
-# parsing (device 16777227, inode 2615983): 3 files, no impossibilities so far.
-# allocation (device 16777227, inode 2618456): 3 files, no impossibilities so far.
 
-# 17 files, no impossibilities in 3 directories.
+# 11 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
 %.o: %.c
-#  commands to execute (from `Makefile', line 14):
+#  commands to execute (from `Makefile', line 15):
 	$(CC) $(CFLAGS) -c $< -o $@
 	
 
@@ -235,14 +235,14 @@ all: philo clean
 # variable set hash-table stats:
 # Load=0/32=0%, Rehash=0, Collisions=0/4=0%
 
-philo: philo.o parsing/check_in.o allocation/allocation.o philo.h
+philo: philo.o parsing/check_in.o allocation/allocation.o threads/threads.o philo.h
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has been updated.
 #  Needs to be updated (-q is set).
 # variable set hash-table stats:
 # Load=0/32=0%, Rehash=0, Collisions=0/4=0%
-#  commands to execute (from `Makefile', line 12):
+#  commands to execute (from `Makefile', line 13):
 	$(CC) $(CFLAGS) $(M_OBJS) -o $@
 	
 
@@ -255,56 +255,50 @@ philo: philo.o parsing/check_in.o allocation/allocation.o philo.h
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-03-04 18:13:34
+#  Last modified 2022-03-04 19:32:25
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
 # Load=0/32=0%, Rehash=0, Collisions=0/0=0%
 
-allocation/allocation.o: allocation/allocation.c
-#  Implicit rule search has been done.
-#  Implicit/static pattern stem: `allocation/allocation'
-#  File does not exist.
-#  File has been updated.
-#  Needs to be updated (-q is set).
-# automatic
-# @ := allocation/allocation.o
-# automatic
-# % := 
-# automatic
-# * := allocation/allocation
-# automatic
-# + := allocation/allocation.c
-# automatic
-# | := 
-# automatic
-# < := allocation/allocation.c
-# automatic
-# ^ := allocation/allocation.c
-# automatic
-# ? := allocation/allocation.c
-# variable set hash-table stats:
-# Load=8/32=25%, Rehash=0, Collisions=1/14=7%
-#  commands to execute (from `Makefile', line 14):
-	$(CC) $(CFLAGS) -c $< -o $@
-	
+# Not a target:
+allocation/allocation.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
 
 philo.o: philo.c
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `philo'
-#  Last modified 2022-03-04 18:13:18
+#  File does not exist.
 #  File has been updated.
-#  Successfully updated.
+#  Needs to be updated (-q is set).
+# automatic
+# @ := philo.o
+# automatic
+# % := 
+# automatic
+# * := philo
+# automatic
+# + := philo.c
+# automatic
+# | := 
+# automatic
+# < := philo.c
+# automatic
+# ^ := philo.c
+# automatic
+# ? := philo.c
 # variable set hash-table stats:
-# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
-#  commands to execute (from `Makefile', line 14):
+# Load=8/32=25%, Rehash=0, Collisions=1/14=7%
+#  commands to execute (from `Makefile', line 15):
 	$(CC) $(CFLAGS) -c $< -o $@
 	
 
 # Not a target:
 philo.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-03-04 18:07:45
+#  Last modified 2022-03-04 19:29:20
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -314,21 +308,15 @@ fclean: clean
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 19):
+#  commands to execute (from `Makefile', line 20):
 	rm -rf $(NAME)
 	
 
-parsing/check_in.o: parsing/check_in.c
-#  Implicit rule search has been done.
-#  Implicit/static pattern stem: `parsing/check_in'
-#  Last modified 2022-03-04 17:46:44
-#  File has been updated.
-#  Successfully updated.
-# variable set hash-table stats:
-# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
-#  commands to execute (from `Makefile', line 14):
-	$(CC) $(CFLAGS) -c $< -o $@
-	
+# Not a target:
+parsing/check_in.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
 
 # Not a target:
 .DEFAULT:
@@ -338,7 +326,6 @@ parsing/check_in.o: parsing/check_in.c
 
 # Not a target:
 philo.h:
- 
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
@@ -352,30 +339,18 @@ clean:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 16):
+#  commands to execute (from `Makefile', line 17):
 	rm -rf $(M_OBJS)
 	
 
 # Not a target:
-allocation/allocation.c:
-#  Implicit rule search has been done.
-#  Last modified 2022-03-04 18:13:13
-#  File has been updated.
-#  Successfully updated.
-# variable set hash-table stats:
-# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
-
-# Not a target:
-parsing/check_in.c:
-#  Implicit rule search has been done.
-#  Last modified 2022-03-04 17:46:32
-#  File has been updated.
-#  Successfully updated.
-# variable set hash-table stats:
-# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+threads/threads.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
 
 # files hash-table stats:
-# Load=15/1024=1%, Rehash=0, Collisions=5/46=11%
+# Load=14/1024=1%, Rehash=0, Collisions=3/40=8%
 # VPATH Search Paths
 
 # No `vpath' search paths.
@@ -387,6 +362,6 @@ parsing/check_in.c:
 # strcache size: total = 4096 / max = 4096 / min = 4096 / avg = 4096
 # strcache free: total = 4087 / max = 4087 / min = 4087 / avg = 4087
 
-# Finished Make data base on Fri Mar  4 18:13:42 2022
+# Finished Make data base on Fri Mar  4 19:32:26 2022
 
  

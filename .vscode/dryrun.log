@@ -1,8 +1,12 @@
 make --dry-run --keep-going --print-directory
 make: Entering directory `/Users/ajaidi/Documents/Philosophers'
+gcc -Wall -Wextra -Werror -c philo.c -o philo.o
+ 
+gcc -Wall -Wextra -Werror -c parsing/check_in.c -o parsing/check_in.o
 gcc -Wall -Wextra -Werror -c allocation/allocation.c -o allocation/allocation.o
  
-gcc -Wall -Wextra -Werror philo.o parsing/check_in.o allocation/allocation.o -o philo
-rm -rf philo.o parsing/check_in.o allocation/allocation.o
+rm -rf philo.o parsing/check_in.o allocation/allocation.o threads/threads.o
 make: Leaving directory `/Users/ajaidi/Documents/Philosophers'
+ 
+make: *** No rule to make target `threads/threads.o', needed by `philo'.
  

@@ -3,7 +3,8 @@ CC = gcc
 CFLAGS = -Wall -Wextra -Werror
 M_SRCS = philo.c \
 			parsing/check_in.c \
-			allocation/allocation.c
+			allocation/allocation.c \
+			threads/threads.c
 M_OBJS = $(M_SRCS:.c=.o)
 
 all : $(NAME) clean

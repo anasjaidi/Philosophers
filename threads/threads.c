@@ -1,24 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.c                                            :+:      :+:    :+:   */
+/*   threads.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ajaidi <ajaidi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/04 16:33:53 by ajaidi            #+#    #+#             */
-/*   Updated: 2022/03/04 19:29:20 by ajaidi           ###   ########.fr       */
+/*   Created: 2022/03/04 19:29:41 by ajaidi            #+#    #+#             */
+/*   Updated: 2022/03/04 19:53:44 by ajaidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../philo.h"
 
-int	main(int ac, char **av)
+void	*func(void *ph)
 {
-	t_philo	philo;
-
-	if (ac == 6 && check_in(ac, av))
+	
+	while (1)
 	{
-		ft_allocation(&philo, av);
-		ft_thread(&philo);
+		/* code */
 	}
+	
+	return (ph);
+}
+
+void	ft_thread(t_philo *philo)
+{
+	int	i;
+
+	i = -1;
+	while (++i < philo->n_philo)
+		pthread_create(&philo->philos[i], NULL, func, (void*)philo);
+	i = -1;
+	while (++i < philo->n_philo)
+		pthread_join(philo->philos[i], NULL);
 }

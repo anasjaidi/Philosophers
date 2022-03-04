@@ -6,7 +6,7 @@
 /*   By: ajaidi <ajaidi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 16:34:17 by ajaidi            #+#    #+#             */
-/*   Updated: 2022/03/04 18:16:30 by ajaidi           ###   ########.fr       */
+/*   Updated: 2022/03/04 19:32:08 by ajaidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,6 @@ typedef struct s_philo
 int		ft_atoi(const char *str);
 int		check_in(int ac, char **av);
 void	ft_allocation(t_philo *philo, char **av);
+void	ft_thread(t_philo *philo);
 
 #endif
