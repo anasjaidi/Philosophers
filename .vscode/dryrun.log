@@ -1,0 +1,8 @@
+make --dry-run --keep-going --print-directory
+make: Entering directory `/Users/ajaidi/Documents/Philosophers'
+gcc -Wall -Wextra -Werror -c allocation/allocation.c -o allocation/allocation.o
+ 
+gcc -Wall -Wextra -Werror philo.o parsing/check_in.o allocation/allocation.o -o philo
+rm -rf philo.o parsing/check_in.o allocation/allocation.o
+make: Leaving directory `/Users/ajaidi/Documents/Philosophers'
+ 
