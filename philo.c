@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajaidi <ajaidi@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 16:33:53 by ajaidi            #+#    #+#             */
-/*   Updated: 2022/03/04 19:29:20 by ajaidi           ###   ########.fr       */
+/*   Updated: 2022/03/06 22:44:29 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	main(int ac, char **av)
 		ft_thread(&philo);
 		while (philo.lamp)
 		{
-		usleep(500);
+			usleep(50);
 		}
 	}
 }

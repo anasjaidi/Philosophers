@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajaidi <ajaidi@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 16:34:17 by ajaidi            #+#    #+#             */
-/*   Updated: 2022/03/05 20:49:13 by ajaidi           ###   ########.fr       */
+/*   Updated: 2022/03/06 22:35:18 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ typedef struct s_thread
 {
 	int			*lamp;
 	pthread_t	philo;
-	int			*forks;
+	pthread_mutex_t	*forks;
 	long long	time;
 	int			i;
 	int			n_eat;

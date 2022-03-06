@@ -3,16 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   threads.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajaidi <ajaidi@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 19:29:41 by ajaidi            #+#    #+#             */
-/*   Updated: 2022/03/05 20:53:08 by ajaidi           ###   ########.fr       */
+/*   Updated: 2022/03/06 22:46:20 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
 pthread_mutex_t	mutex;
+
+void out(int i, char *s)
+{
+	pthread_mutex_lock(&mutex);
+	printf("philo %d %s\n", i, s);
+	pthread_mutex_unlock(&mutex);
+}
 
 void	*func(void *ph)
 {
@@ -22,24 +29,22 @@ void	*func(void *ph)
 	
 	philo = ph;
 	if (!(philo->i & 1))
-		usleep(1000);
+		usleep(philo->all->t_eat * 1e3);
 	while (1)
 	{
-		if (!philo->forks[(philo->i -1) % philo->n - 1] && !philo->forks[philo->i % philo->n])
-			break ;
-		pthread_mutex_lock(&mutex);
-		philo->forks[(philo->i -1) % philo->n] = 0;
-		philo->forks[philo->i % philo->n] = 0;
-		printf("philo %d get forks\n", philo->i);
-		usleep(philo->all->t_eat);
-		philo->forks[philo->i % philo->n - 1] = 1;
-		philo->forks[philo->i % philo->n] = 1;
-		pthread_mutex_unlock(&mutex);
+		pthread_mutex_lock(&philo->forks[(philo->i - 1 ) % philo->n]);
+		out(philo->i , "taken a fork");
+		pthread_mutex_lock(&philo->forks[(philo->i) % philo->n]);
+		out(philo->i , "taken a fork");
+		out(philo->i , "is eating");
+		usleep(philo->all->t_eat * 1e3);
+		pthread_mutex_unlock(&philo->forks[(philo->i - 1 ) % philo->n]);
+		pthread_mutex_unlock(&philo->forks[(philo->i) % philo->n]);
 		gettimeofday(&current_time, NULL);
-		philo->time = current_time.tv_sec * 1e6 + current_time.tv_usec ;
-		printf("philo %d has sleeping\n", philo->i);
-		usleep(philo->all->t_sleep);
-		printf("philo %d has thinking\n", philo->i);
+		philo->time = (current_time.tv_sec * 1e3) + (current_time.tv_usec / 1e3);
+		out(philo->i, "is sleeping");
+		usleep(philo->all->t_sleep * 1e3);
+		out(philo->i, "is thinking");
 	}
 	
 	return (ph);
@@ -48,7 +53,7 @@ void	*func(void *ph)
 void	*manager(void *ph)
 {
 	t_philo *philo;
-	struct timeval cu_t;
+	struct timeval current_time;
 
 	philo = ph;
 	int i = 0;
@@ -56,8 +61,8 @@ void	*manager(void *ph)
 	{
 		if (i == philo->n_philo)
 			i = 0;
-		gettimeofday(&cu_t, NULL);
-		if ((cu_t.tv_sec * 1e6 + cu_t.tv_usec) - philo->philos[i].time >= (philo->t_die))
+		gettimeofday(&current_time, NULL);
+		if (((current_time.tv_sec * 1e3) + (current_time.tv_usec / 1e3)) - philo->philos[i].time > (philo->t_die))
 			philo->lamp = 0;
 		i++;
 	}
@@ -80,5 +85,4 @@ void	ft_thread(t_philo *philo)
 	// {
 	// 	printf("is %d\n",philo->philos[i].i);
 	// }
-	
 }
