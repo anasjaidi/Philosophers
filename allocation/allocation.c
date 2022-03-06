@@ -15,23 +15,29 @@
 void	ft_allocation(t_philo *philo, char **av)
 {
 	int	i;
+	int	*a;
+	struct timeval current_time;
 
 	i = -1;
 	philo->n_philo = ft_atoi(av[1]);
-	philo->t_die = ft_atoi(av[2]);
-	philo->t_eat = ft_atoi(av[3]);
-	philo->t_sleep = ft_atoi(av[4]);
+	philo->lamp = 1;
+	philo->t_die = ft_atoi(av[2]) * 1000;
+	philo->t_eat = ft_atoi(av[3]) * 1000;
+	philo->t_sleep = ft_atoi(av[4]) * 1000;
 	philo->n_eat = ft_atoi(av[5]);
 	philo->philos = malloc(sizeof(t_pthread) * philo->n_philo + 1);
-	philo->time = 0;
+	a = malloc(sizeof(int) * philo->n_philo);
+	gettimeofday(&current_time, NULL);
+	philo->time = current_time.tv_sec * 1e6 + current_time.tv_usec;
 	while (++i <= philo->n_philo)
 	{
-		
+		philo->philos[i].lamp = &philo->lamp;
 		philo->philos[i].i = i + 1;
+		philo->philos[i].n = philo->n_philo;
+		philo->philos[i].forks = a;
+		philo->philos[i].forks[i] = 1;
 		philo->philos[i].n_eat = 0;
-		//philo->philos[i].fork = 1;
-		philo->philos[i].time = 0;
-		
+		philo->philos[i].all = philo;
+		philo->philos[i].time = philo->time;	
 	}
-	
 }

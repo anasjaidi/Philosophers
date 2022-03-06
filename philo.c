@@ -20,5 +20,9 @@ int	main(int ac, char **av)
 	{
 		ft_allocation(&philo, av);
 		ft_thread(&philo);
+		while (philo.lamp)
+		{
+		usleep(500);
+		}
 	}
 }

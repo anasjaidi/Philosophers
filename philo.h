@@ -17,17 +17,23 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <stdio.h>
+# include <sys/time.h>
 
 typedef struct s_thread
 {
+	int			*lamp;
 	pthread_t	philo;
+	int			*forks;
 	long long	time;
 	int			i;
 	int			n_eat;
+	int			n;
+	struct s_philo	*all;
 }	t_pthread;
 
 typedef struct s_philo
 {
+	int					lamp;
 	long long			time;
 	int					n_philo;
 	int					t_die;
