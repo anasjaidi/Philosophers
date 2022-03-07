@@ -7,7 +7,7 @@ M_SRCS = philo.c \
 			threads/threads.c
 M_OBJS = $(M_SRCS:.c=.o)
 
-all : $(NAME) clean
+all : $(NAME)
 
 $(NAME) : $(M_OBJS) philo.h
 	$(CC) $(CFLAGS) $(M_OBJS) -o $@
