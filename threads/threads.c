@@ -6,7 +6,7 @@
 /*   By: ajaidi <ajaidi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 19:29:41 by ajaidi            #+#    #+#             */
-/*   Updated: 2022/03/08 22:32:20 by ajaidi           ###   ########.fr       */
+/*   Updated: 2022/03/08 22:58:24 by ajaidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,13 +78,15 @@ void	*manager(t_philo *philo)
 				c++;
 			if (c == philo->n_philo)
 				philo->lamp = 2;
+				//exit(0);
 		}
 		if (i == philo->n_philo)
 			i = 0;
 		if ((get_time() - philo->philos[i].time) > philo->t_die)
 		{
 			out((get_time() - philo->time), &philo->philos[i], "died", 0);
-			philo->lamp = 2;
+				philo->lamp = 2;
+				//exit(0);
 		}
 		i++;
 	}
