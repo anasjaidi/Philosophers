@@ -18,7 +18,6 @@ void	ft_allocation(t_philo *philo, char **av)
 
 	i = -1;
 	philo->n_philo = ft_atoi(av[1]);
-	philo->lamp = 1;
 	philo->t_die = ft_atoi(av[2]);
 	philo->t_eat = ft_atoi(av[3]);
 	philo->t_sleep = ft_atoi(av[4]);

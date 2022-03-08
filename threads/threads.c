@@ -50,7 +50,12 @@ void	*func(void *ph)
 		usleep(philo->all->t_eat * 1e3);
 	while (1)
 	{
-		if (philo->n_eat == philo->all->n_eat && philo->all->lamp)
+		if ((get_time() - philo->time) > philo->all->t_die)
+		{
+			out((get_time() - philo->all->time), philo, "died");
+			philo->all->lamp = 2;
+		}
+		if (!philo->all->n_eat && philo->n_eat == philo->all->n_eat && philo->all->lamp)
 			*ptr = 2;
 		sets_fork(philo, 0);
 		out((get_time() - philo->all->time), philo, "is eating");
@@ -75,7 +80,8 @@ void	*manager(t_philo *philo)
 			i = 0;
 		if ((get_time() - philo->philos[i].time) > philo->t_die)
 		{
-			out(get_time() - philo->time, &philo->philos[i], "has died");
+			pthread_mutex_lock(&philo->mutex);
+			printf("%lld philo %d died\n", get_time() - philo->time, philo->philos[i].i);
 			return (NULL);
 		}
 		i++;

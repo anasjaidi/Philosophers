@@ -21,6 +21,8 @@ int	main(int ac, char **av)
 		check_lamp(ac, &philo);
 		ft_allocation(&philo, av);
 		ft_thread(&philo);
-		manager(&philo);
+		// manager(&philo);
+		while (philo.lamp !=2)
+			usleep(1);		
 	}
 }
