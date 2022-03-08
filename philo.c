@@ -6,7 +6,7 @@
 /*   By: ajaidi <ajaidi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 16:33:53 by ajaidi            #+#    #+#             */
-/*   Updated: 2022/03/07 23:37:37 by ajaidi           ###   ########.fr       */
+/*   Updated: 2022/03/08 21:17:43 by ajaidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	main(int ac, char **av)
 		check_lamp(ac, &philo);
 		ft_allocation(&philo, av);
 		ft_thread(&philo);
-		// manager(&philo);
+		manager(&philo);
 		while (philo.lamp !=2)
 			usleep(1);		
 	}

@@ -6,17 +6,18 @@
 /*   By: ajaidi <ajaidi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 19:29:41 by ajaidi            #+#    #+#             */
-/*   Updated: 2022/03/07 23:36:13 by ajaidi           ###   ########.fr       */
+/*   Updated: 2022/03/08 21:19:14 by ajaidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
-void	out(long long time, t_pthread *philo, char *s)
+void	out(long long time, t_pthread *philo, char *s, int lamp)
 {
 	pthread_mutex_lock(&philo->all->mutex);
 	printf("%lld philo %d %s\n", time, philo->i, s);
-	pthread_mutex_unlock(&philo->all->mutex);
+	if (lamp)
+		pthread_mutex_unlock(&philo->all->mutex);
 }
 
 void	sets_fork(t_pthread *philo, int x)
@@ -25,10 +26,10 @@ void	sets_fork(t_pthread *philo, int x)
 	{
 		pthread_mutex_lock(&philo->all->forks[(philo->i - 1) \
 			% philo->all->n_philo]);
-		out((get_time() - philo->all->time), philo, "taken a fork");
+		out((get_time() - philo->all->time), philo, "taken a fork", 1);
 		pthread_mutex_lock(&philo->all->forks[(philo->i) \
 			% philo->all->n_philo]);
-		out((get_time() - philo->all->time), philo, "taken a fork");
+		out((get_time() - philo->all->time), philo, "taken a fork", 1);
 	}
 	else
 	{
@@ -47,25 +48,20 @@ void	*func(void *ph)
 	philo = ph;
 	ptr = &philo->all->lamp;
 	if (!(philo->i & 1))
-		usleep(philo->all->t_eat * 1e3);
+		usleep(philo->all->t_eat * 1e2);
 	while (1)
 	{
-		if ((get_time() - philo->time) > philo->all->t_die)
-		{
-			out((get_time() - philo->all->time), philo, "died");
-			philo->all->lamp = 2;
-		}
 		if (!philo->all->n_eat && philo->n_eat == philo->all->n_eat && philo->all->lamp)
 			*ptr = 2;
 		sets_fork(philo, 0);
-		out((get_time() - philo->all->time), philo, "is eating");
+		out((get_time() - philo->all->time), philo, "is eating", 1);
 		philo->n_eat += 1;
 		usleep(philo->all->t_eat * 1e3);
 		sets_fork(philo, 1);
 		philo->time = get_time();
-		out((get_time() - philo->all->time), philo, "is sleeping");
+		out((get_time() - philo->all->time), philo, "is sleeping", 1);
 		usleep(philo->all->t_sleep * 1e3);
-		out((get_time() - philo->all->time), philo, "is thinking");
+		out((get_time() - philo->all->time), philo, "is thinking", 1);
 	}
 }
 
@@ -80,9 +76,9 @@ void	*manager(t_philo *philo)
 			i = 0;
 		if ((get_time() - philo->philos[i].time) > philo->t_die)
 		{
-			pthread_mutex_lock(&philo->mutex);
-			printf("%lld philo %d died\n", get_time() - philo->time, philo->philos[i].i);
-			return (NULL);
+			out((get_time() - philo->time), &philo->philos[i], "died", 0);
+			//philo->all->lamp = 2;
+			exit(0);
 		}
 		i++;
 	}

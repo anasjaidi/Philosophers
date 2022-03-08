@@ -6,7 +6,7 @@
 /*   By: ajaidi <ajaidi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 16:34:17 by ajaidi            #+#    #+#             */
-/*   Updated: 2022/03/07 23:29:26 by ajaidi           ###   ########.fr       */
+/*   Updated: 2022/03/08 20:56:36 by ajaidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,5 +50,6 @@ void		*manager(t_philo *philo);
 void		*func(void *ph);
 long long	get_time(void);
 void		check_lamp(int ac, t_philo *philo);
+void		out(long long time, t_pthread *philo, char *s, int lamp);
 
 #endif
