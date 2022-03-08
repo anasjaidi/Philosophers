@@ -6,7 +6,7 @@
 /*   By: ajaidi <ajaidi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 19:29:41 by ajaidi            #+#    #+#             */
-/*   Updated: 2022/03/08 21:19:14 by ajaidi           ###   ########.fr       */
+/*   Updated: 2022/03/08 22:32:20 by ajaidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,6 @@ void	*func(void *ph)
 		usleep(philo->all->t_eat * 1e2);
 	while (1)
 	{
-		if (!philo->all->n_eat && philo->n_eat == philo->all->n_eat && philo->all->lamp)
-			*ptr = 2;
 		sets_fork(philo, 0);
 		out((get_time() - philo->all->time), philo, "is eating", 1);
 		philo->n_eat += 1;
@@ -68,17 +66,25 @@ void	*func(void *ph)
 void	*manager(t_philo *philo)
 {
 	int	i;
+	int	c;
 
 	i = 0;
+	c = 0;
 	while (philo->lamp != 2)
 	{
+		if (philo->n_eat)
+		{
+			if (philo->philos[i].n_eat == philo->n_eat)
+				c++;
+			if (c == philo->n_philo)
+				philo->lamp = 2;
+		}
 		if (i == philo->n_philo)
 			i = 0;
 		if ((get_time() - philo->philos[i].time) > philo->t_die)
 		{
 			out((get_time() - philo->time), &philo->philos[i], "died", 0);
-			//philo->all->lamp = 2;
-			exit(0);
+			philo->lamp = 2;
 		}
 		i++;
 	}
