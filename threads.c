@@ -81,7 +81,7 @@ void	*manager(t_philo *philo)
 		}
 		if (i == philo->n_philo)
 			i = 0;
-		if ((get_time() - philo->philos[i].time) > philo->t_die)
+		if ((get_time() - philo->philos[i].time) > philo->t_die + 5)
 		{
 			out(&philo->philos[i], "died", 0);
 			return (NULL);
