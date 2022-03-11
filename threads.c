@@ -6,16 +6,16 @@
 /*   By: ajaidi <ajaidi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 19:29:41 by ajaidi            #+#    #+#             */
-/*   Updated: 2022/03/08 23:03:24 by ajaidi           ###   ########.fr       */
+/*   Updated: 2022/03/11 15:33:05 by ajaidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../philo.h"
+#include "philo.h"
 
-void	out(long long time, t_pthread *philo, char *s, int lamp)
+void	out(t_pthread *philo, char *s, int lamp)
 {
 	pthread_mutex_lock(&philo->all->mutex);
-	printf("%lld philo %d %s\n", time, philo->i, s);
+	printf("%lld philo %d %s\n", (get_time() - philo->all->time), philo->i, s);
 	if (lamp)
 		pthread_mutex_unlock(&philo->all->mutex);
 }
@@ -26,10 +26,10 @@ void	sets_fork(t_pthread *philo, int x)
 	{
 		pthread_mutex_lock(&philo->all->forks[(philo->i - 1) \
 			% philo->all->n_philo]);
-		out((get_time() - philo->all->time), philo, "taken a fork", 1);
+		out(philo, "taken a fork", 1);
 		pthread_mutex_lock(&philo->all->forks[(philo->i) \
 			% philo->all->n_philo]);
-		out((get_time() - philo->all->time), philo, "taken a fork", 1);
+		out(philo, "taken a fork", 1);
 	}
 	else
 	{
@@ -52,14 +52,14 @@ void	*func(void *ph)
 	while (1)
 	{
 		sets_fork(philo, 0);
-		out((get_time() - philo->all->time), philo, "is eating", 1);
+		out(philo, "is eating", 1);
 		philo->n_eat += 1;
 		usleep(philo->all->t_eat * 1e3);
 		sets_fork(philo, 1);
 		philo->time = get_time();
-		out((get_time() - philo->all->time), philo, "is sleeping", 1);
+		out(philo, "is sleeping", 1);
 		usleep(philo->all->t_sleep * 1e3);
-		out((get_time() - philo->all->time), philo, "is thinking", 1);
+		out(philo, "is thinking", 1);
 	}
 }
 
@@ -83,7 +83,7 @@ void	*manager(t_philo *philo)
 			i = 0;
 		if ((get_time() - philo->philos[i].time) > philo->t_die)
 		{
-			out((get_time() - philo->time), &philo->philos[i], "died", 0);
+			out(&philo->philos[i], "died", 0);
 			return (NULL);
 		}
 		i++;

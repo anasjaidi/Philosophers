@@ -6,11 +6,11 @@
 /*   By: ajaidi <ajaidi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 17:48:57 by ajaidi            #+#    #+#             */
-/*   Updated: 2022/03/08 22:21:16 by ajaidi           ###   ########.fr       */
+/*   Updated: 2022/03/10 14:57:02 by ajaidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../philo.h"
+#include "philo.h"
 
 void	ft_allocation(t_philo *philo, char **av)
 {
@@ -23,7 +23,7 @@ void	ft_allocation(t_philo *philo, char **av)
 	if (av[5])
 		philo->n_eat = ft_atoi(av[5]);
 	philo->t_sleep = ft_atoi(av[4]);
-	philo->philos = malloc(sizeof(t_pthread) * (philo->n_philo + 1));
+	philo->philos = malloc(sizeof(t_pthread) * (philo->n_philo));
 	philo->forks = malloc(sizeof(pthread_mutex_t) * philo->n_philo);
 	philo->time = get_time();
 	while (++i < philo->n_philo)

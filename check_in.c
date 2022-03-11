@@ -6,11 +6,11 @@
 /*   By: ajaidi <ajaidi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 16:37:37 by ajaidi            #+#    #+#             */
-/*   Updated: 2022/03/04 17:46:32 by ajaidi           ###   ########.fr       */
+/*   Updated: 2022/03/10 14:57:04 by ajaidi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../philo.h"
+#include "philo.h"
 
 int	ft_atoi(const char *str)
 {
