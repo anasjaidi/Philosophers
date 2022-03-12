@@ -21,6 +21,6 @@ int	main(int ac, char **av)
 	{
 		ft_allocation(&philo, av);
 		pid = ft_thread(&philo);
-		manager(&philo, pid);
+		ft_exit(&philo, pid);
 	}
 }

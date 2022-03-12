@@ -24,15 +24,13 @@ void	ft_allocation(t_philo *philo, char **av)
 	if (av[5])
 		philo->n_eat = ft_atoi(av[5]);
 	philo->philos = malloc(sizeof(t_pthread) * (philo->n_philo));
-	philo->times = malloc(sizeof(long long) * (philo->n_philo));
 	philo->time = get_time();
 	while (++i < philo->n_philo)
 	{
-		philo->philos[i].time = philo->times;
 		philo->philos[i].i = i + 1;
+		philo->philos[i].time = philo->time;
 		philo->philos[i].n_eat = 0;
 		philo->philos[i].all = philo;
-		(philo->times)[i] = philo->time;
 	}
 }
 
