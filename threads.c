@@ -12,14 +12,6 @@
 
 #include "philo.h"
 
-void	out(t_pthread *philo, char *s, int lamp)
-{
-	pthread_mutex_lock(&philo->all->mutex);
-	printf("%lld philo %d %s\n", (get_time() - philo->all->time), philo->i, s);
-	if (lamp)
-		pthread_mutex_unlock(&philo->all->mutex);
-}
-
 void	sets_fork(t_pthread *philo, int x)
 {
 	if (x == 0)
@@ -43,23 +35,21 @@ void	sets_fork(t_pthread *philo, int x)
 void	*func(void *ph)
 {
 	t_pthread	*philo;
-	int			*ptr;
 
 	philo = ph;
-	ptr = &philo->all->lamp;
 	if (!(philo->i & 1))
 		usleep(philo->all->t_eat * 1e2);
 	while (1)
 	{
 		sets_fork(philo, 0);
 		out(philo, "is eating", 1);
-		philo->n_eat += 1;
 		usleep(philo->all->t_eat * 1e3);
 		sets_fork(philo, 1);
 		philo->time = get_time();
 		out(philo, "is sleeping", 1);
 		usleep(philo->all->t_sleep * 1e3);
 		out(philo, "is thinking", 1);
+		philo->n_eat += 1;
 	}
 }
 
@@ -70,18 +60,17 @@ void	*manager(t_philo *philo)
 
 	i = 0;
 	c = 0;
-	while (philo->lamp != 2)
+	while (1)
 	{
-		if (philo->n_eat)
-		{
-			if (philo->philos[i].n_eat == philo->n_eat)
-				c++;
-			if (c == philo->n_philo)
-				return (NULL);
-		}
 		if (i == philo->n_philo)
+		{
 			i = 0;
-		if ((get_time() - philo->philos[i].time) > philo->t_die + 5)
+			c = 0;
+		}
+		if (philo->n_eat)
+			if (!n_eat(&c, &philo->philos[i]))
+				return (NULL);
+		if ((get_time() - philo->philos[i].time) >= philo->t_die + 5)
 		{
 			out(&philo->philos[i], "died", 0);
 			return (NULL);
@@ -102,4 +91,16 @@ void	ft_thread(t_philo *philo)
 	i = -1;
 	while (++i < philo->n_philo)
 		pthread_detach(philo->philos[i].philo);
+}
+
+int	n_eat(int *c, t_pthread *philo)
+{
+	if (philo->n_eat >= philo->all->n_eat)
+		*c += 1;
+	if (*c == philo->all->n_philo)
+	{
+		out(philo, NULL, 0);
+		return (0);
+	}
+	return (1);
 }

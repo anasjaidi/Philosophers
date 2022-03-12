@@ -15,11 +15,12 @@
 int	main(int ac, char **av)
 {
 	t_philo	philo;
+	int		*pid;
 
 	if ((ac == 6 || ac == 5) && check_in(ac, av))
 	{
 		ft_allocation(&philo, av);
-		ft_thread(&philo);
-		manager(&philo);
+		pid = ft_thread(&philo);
+		manager(&philo, pid);
 	}
 }

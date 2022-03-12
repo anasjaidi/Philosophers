@@ -20,19 +20,19 @@ void	ft_allocation(t_philo *philo, char **av)
 	philo->n_philo = ft_atoi(av[1]);
 	philo->t_die = ft_atoi(av[2]);
 	philo->t_eat = ft_atoi(av[3]);
+	philo->t_sleep = ft_atoi(av[4]);
 	if (av[5])
 		philo->n_eat = ft_atoi(av[5]);
-	philo->t_sleep = ft_atoi(av[4]);
 	philo->philos = malloc(sizeof(t_pthread) * (philo->n_philo));
-	philo->forks = malloc(sizeof(pthread_mutex_t) * philo->n_philo);
+	philo->times = malloc(sizeof(long long) * (philo->n_philo));
 	philo->time = get_time();
 	while (++i < philo->n_philo)
 	{
-		pthread_mutex_init(&philo->forks[i], NULL);
+		philo->philos[i].time = philo->times;
 		philo->philos[i].i = i + 1;
 		philo->philos[i].n_eat = 0;
 		philo->philos[i].all = philo;
-		philo->philos[i].time = philo->time;
+		(philo->times)[i] = philo->time;
 	}
 }
 
@@ -42,14 +42,4 @@ long long	get_time(void)
 
 	gettimeofday(&current_time, NULL);
 	return ((current_time.tv_sec * 1e3) + (current_time.tv_usec / 1e3));
-}
-
-void	out(t_pthread *philo, char *s, int lamp)
-{
-	pthread_mutex_lock(&philo->all->mutex);
-	if (s)
-		printf("%lld philo %d %s\n", (get_time() - philo->all->time) \
-		, philo->i, s);
-	if (lamp)
-		pthread_mutex_unlock(&philo->all->mutex);
 }

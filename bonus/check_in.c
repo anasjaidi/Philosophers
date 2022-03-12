@@ -15,16 +15,18 @@
 int	ft_atoi(const char *str)
 {
 	int	i;
+	int	s;
 	int	r;
 
 	i = 0;
+	s = 1;
 	r = 0;
 	while ((str[i] >= 9 && str[i] <= 13) || str[i] == 32)
 		i++;
 	if (str[i] == '-' || str[i] == '+')
 	{
 		if (str[i] == '-')
-			return (0);
+			s *= -1;
 		i++;
 	}
 	while (str[i])
@@ -35,7 +37,7 @@ int	ft_atoi(const char *str)
 		r += str[i] - 48;
 		i++;
 	}
-	return (r);
+	return (r * s);
 }
 
 int	check_in(int ac, char **av)

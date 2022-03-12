@@ -17,12 +17,14 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <stdio.h>
+# include <signal.h>
+# include <semaphore.h>
 # include <sys/time.h>
 
 typedef struct s_thread
 {
 	pthread_t		philo;
-	long long		time;
+	long long		*time;
 	int				i;
 	int				n_eat;
 	struct s_philo	*all;
@@ -30,27 +32,26 @@ typedef struct s_thread
 
 typedef struct s_philo
 {
-	int					lamp;
 	long long			time;
 	int					n_philo;
 	int					t_die;
 	int					t_eat;
 	int					t_sleep;
 	int					n_eat;
-	pthread_mutex_t		mutex;
 	t_pthread			*philos;
-	pthread_mutex_t		*forks;
+	sem_t				*printf;
+	sem_t				*robin;
+	long long			*times;
 }	t_philo;
 
 int			ft_atoi(const char *str);
 int			check_in(int ac, char **av);
 void		ft_allocation(t_philo *philo, char **av);
-void		ft_thread(t_philo *philo);
-void		*manager(t_philo *philo);
-void		*func(void *ph);
+int			*ft_thread(t_philo *philo);
+void		manager(t_philo *philo, int *pid);
+void		func(t_pthread *philo);
 long long	get_time(void);
-int			n_eat(int *c, t_pthread *philo);
-void		check_lamp(int ac, t_philo *philo);
 void		out(t_pthread *philo, char *s, int lamp);
+void		ft_exit(int *pid, t_philo *philo);
 
 #endif
