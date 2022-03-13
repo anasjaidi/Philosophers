@@ -44,7 +44,7 @@ typedef struct s_philo
 
 int			ft_atoi(const char *str);
 int			check_in(int ac, char **av);
-void		ft_allocation(t_philo *philo, char **av);
+int			ft_allocation(t_philo *philo, char **av);
 void		ft_thread(t_philo *philo);
 void		*manager(t_philo *philo);
 void		*func(void *ph);
@@ -52,5 +52,7 @@ long long	get_time(void);
 int			n_eat(int *c, t_pthread *philo);
 void		check_lamp(int ac, t_philo *philo);
 void		out(t_pthread *philo, char *s, int lamp);
+void		ft_usleep(unsigned long time);
+int			ft_free(t_philo *pilo);
 
 #endif

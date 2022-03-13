@@ -41,19 +41,19 @@ typedef struct s_philo
 	t_pthread			*philos;
 	sem_t				*printf;
 	sem_t				*robin;
-	sem_t				*the_me;
-	int					*pid;
 }	t_philo;
 
 int			ft_atoi(const char *str);
 int			check_in(int ac, char **av);
-void		ft_allocation(t_philo *philo, char **av);
+int			ft_allocation(t_philo *philo, char **av);
 int			*ft_thread(t_philo *philo);
-void		func(t_pthread *philo);
+void		*ft_procces(void *ph);
 long long	get_time(void);
 void		out(t_pthread *philo, char *s, int lamp);
-void		ft_exit(t_philo *philo, int *pid);
+void		ft_exit(t_philo *philo, int *pid, int size);
 void		ft_sem_init(t_philo *philo);
-void		*ft_manager(void *ph);
+void		ft_free(t_philo *philo, int l);
+int			func(t_pthread *philo);
+void		ft_usleep(unsigned long time);
 
 #endif

@@ -45,6 +45,6 @@ int	check_in(int ac, char **av)
 	i = 0;
 	while (++i < ac)
 		if (ft_atoi(av[i]) < 1)
-			return (0);
+			return (printf("Error in parsing the input\n"), 0);
 	return (1);
 }

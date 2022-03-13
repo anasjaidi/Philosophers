@@ -12,14 +12,6 @@
 
 #include "philo.h"
 
-void	out(t_pthread *philo, char *s, int lamp)
-{
-	sem_wait(philo->all->printf);
-	printf("%lld philo %d %s\n", (get_time() - philo->all->time), philo->i, s);
-	if (lamp)
-		sem_post(philo->all->printf);
-}
-
 void	sets_fork(t_pthread *philo, int x)
 {
 	if (x == 0)
@@ -36,64 +28,47 @@ void	sets_fork(t_pthread *philo, int x)
 	}
 }
 
-void	*ft_manager(void *ph)
+int	func(t_pthread *philo)
 {
-	t_pthread	*philo;
-	int			i;
+	pthread_t	procces;
 
-	philo = ph;
-	i = -1;
+	pthread_create(&procces, NULL, ft_procces, philo);
+	pthread_detach(procces);
 	while (1)
 	{
 		if (philo->all->n_eat)
 		{
 			if (philo->n_eat >= philo->all->n_eat)
-			{
-				sem_post(philo->all->the_me);
-				return (NULL);
-			}
+				ft_free(philo->all, 0);
 		}
-		if ((get_time() - philo->time) >= philo->all->t_die + 5)
+		if ((get_time() - philo->time) > philo->all->t_die)
 		{
 			out(philo, "died", 0);
-			while (++i < philo->all->n_philo)
-				sem_post(philo->all->the_me);
+			ft_free(philo->all, 1);
 		}
+		usleep(50);
 	}
 }
 
-void	func(t_pthread	*philo)
+void	*ft_procces(void *ph)
 {
-	pthread_t	manager;
+	t_pthread	*philo;
 
-	pthread_create(&manager, NULL, ft_manager, philo);
-	pthread_detach(manager);
+	philo = ph;
 	if (!(philo->i & 1))
-		usleep(philo->all->t_eat * 1e2);
+		ft_usleep(philo->all->t_eat / 2);
 	while (1)
 	{
 		sets_fork(philo, 0);
 		out(philo, "is eating", 1);
-		usleep(philo->all->t_eat * 1e3);
+		ft_usleep(philo->all->t_eat);
 		sets_fork(philo, 1);
 		philo->time = get_time();
 		out(philo, "is sleeping", 1);
-		usleep(philo->all->t_sleep * 1e3);
+		ft_usleep(philo->all->t_sleep);
 		out(philo, "is thinking", 1);
 		philo->n_eat += 1;
 	}
-}
-
-void	ft_sem_init(t_philo *philo)
-{
-	sem_unlink("robin");
-	sem_unlink("printf");
-	sem_unlink("the_me");
-	philo->robin = sem_open("robin", O_CREAT, 0644, philo->n_philo);
-	philo->printf = sem_open("printf", O_CREAT, 0644, 1);
-	philo->the_me = sem_open("the_me", O_CREAT, 0644, 0);
-	if (philo->robin == SEM_FAILED || philo->robin == SEM_FAILED || philo->the_me == SEM_FAILED)
-		exit (0);
 }
 
 int	*ft_thread(t_philo *philo)
@@ -109,24 +84,37 @@ int	*ft_thread(t_philo *philo)
 	{
 		pid = fork();
 		if (pid == 0)
-		{
 			func(&philo->philos[i]);
-			exit(0);
-		}
 		else
 			pids[i] = pid;
 	}
 	return (pids);
 }
 
-void	ft_exit(t_philo *philo, int *pid)
+void	ft_exit(t_philo *philo, int *pid, int size)
 {
 	int	i;
+	int	status;
 
-	i = -1;
-	// while (++i < philo->n_philo)
-	// 	sem_wait(philo->the_me);
-	while (++i < philo->n_philo)
-		kill(pid[i], SIGTERM);
-	exit(0);
+	if (size == philo->n_philo)
+		return (free(pid), ft_free(philo, 0));
+	wait(&status);
+	if (WIFEXITED(status))
+	{
+		if (WEXITSTATUS(status) == 1)
+		{
+			i = -1;
+			while (++i < philo->n_philo)
+				kill(pid[i], SIGKILL);
+		}
+		else
+			return (ft_exit(philo, pid, size + 1));
+	}
+	else
+	{
+		i = -1;
+		while (++i < philo->n_philo)
+			kill(pid[i], SIGKILL);
+	}
+	return (free(pid), ft_free(philo, 0));
 }

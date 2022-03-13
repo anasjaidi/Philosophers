@@ -12,7 +12,7 @@
 
 #include "philo.h"
 
-void	ft_allocation(t_philo *philo, char **av)
+int	ft_allocation(t_philo *philo, char **av)
 {
 	int	i;
 
@@ -24,7 +24,11 @@ void	ft_allocation(t_philo *philo, char **av)
 		philo->n_eat = ft_atoi(av[5]);
 	philo->t_sleep = ft_atoi(av[4]);
 	philo->philos = malloc(sizeof(t_pthread) * (philo->n_philo));
+	if (!philo->philos)
+		return (0);
 	philo->forks = malloc(sizeof(pthread_mutex_t) * philo->n_philo);
+	if (!philo->forks)
+		return (free(philo->philos), 0);
 	philo->time = get_time();
 	while (++i < philo->n_philo)
 	{
@@ -34,6 +38,7 @@ void	ft_allocation(t_philo *philo, char **av)
 		philo->philos[i].all = philo;
 		philo->philos[i].time = philo->time;
 	}
+	return (1);
 }
 
 long long	get_time(void)
@@ -52,4 +57,26 @@ void	out(t_pthread *philo, char *s, int lamp)
 		, philo->i, s);
 	if (lamp)
 		pthread_mutex_unlock(&philo->all->mutex);
+}
+
+void	ft_usleep(unsigned long time)
+{
+	unsigned long	curr;
+
+	curr = get_time();
+	while (get_time() - curr < time)
+		usleep(50);
+}
+
+int	ft_free(t_philo *philo)
+{
+	int	i;
+
+	i = -1;
+	while (++i < philo->n_philo)
+		pthread_mutex_destroy(&(philo->forks[i]));
+	pthread_mutex_destroy(&(philo->mutex));
+	free(philo->philos);
+	free(philo->forks);
+	return (0);
 }

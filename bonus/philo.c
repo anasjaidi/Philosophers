@@ -19,8 +19,11 @@ int	main(int ac, char **av)
 
 	if ((ac == 6 || ac == 5) && check_in(ac, av))
 	{
-		ft_allocation(&philo, av);
+		if (!ft_allocation(&philo, av))
+			return (printf("Error in allocation\n"), 1);
 		pid = ft_thread(&philo);
-		ft_exit(&philo, pid);
+		sem_close(philo.printf);
+		sem_close(philo.robin);
+		ft_exit(&philo, pid, 0);
 	}
 }

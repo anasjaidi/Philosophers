@@ -38,16 +38,16 @@ void	*func(void *ph)
 
 	philo = ph;
 	if (!(philo->i & 1))
-		usleep(philo->all->t_eat * 1e2);
+		ft_usleep(philo->all->t_eat / 2);
 	while (1)
 	{
 		sets_fork(philo, 0);
 		out(philo, "is eating", 1);
-		usleep(philo->all->t_eat * 1e3);
+		ft_usleep(philo->all->t_eat);
 		sets_fork(philo, 1);
 		philo->time = get_time();
 		out(philo, "is sleeping", 1);
-		usleep(philo->all->t_sleep * 1e3);
+		ft_usleep(philo->all->t_sleep);
 		out(philo, "is thinking", 1);
 		philo->n_eat += 1;
 	}
@@ -70,7 +70,7 @@ void	*manager(t_philo *philo)
 		if (philo->n_eat)
 			if (!n_eat(&c, &philo->philos[i]))
 				return (NULL);
-		if ((get_time() - philo->philos[i].time) >= philo->t_die + 5)
+		if ((get_time() - philo->philos[i].time) >= philo->t_die)
 		{
 			out(&philo->philos[i], "died", 0);
 			return (NULL);

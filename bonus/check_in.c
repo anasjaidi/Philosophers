@@ -45,6 +45,14 @@ int	check_in(int ac, char **av)
 	i = 0;
 	while (++i < ac)
 		if (ft_atoi(av[i]) < 1)
-			return (0);
+			return (printf("Error in parsing the input\n"), 0);
 	return (1);
+}
+
+void	out(t_pthread *philo, char *s, int lamp)
+{
+	sem_wait(philo->all->printf);
+	printf("%lld philo %d %s\n", (get_time() - philo->all->time), philo->i, s);
+	if (lamp)
+		sem_post(philo->all->printf);
 }
