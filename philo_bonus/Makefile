@@ -1,7 +1,7 @@
-NAME = philo
-B_NAME = philo_bonus
+NAME = philo_bonus
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror
+			
 M_SRCS = philo.c \
 			check_in.c \
 			allocation.c \
@@ -9,6 +9,7 @@ M_SRCS = philo.c \
 M_OBJS = $(M_SRCS:.c=.o)
 
 all : $(NAME)
+
 $(NAME) : $(M_OBJS) philo.h
 	$(CC) $(CFLAGS) $(M_OBJS) -o $@
 %.o : %.c
